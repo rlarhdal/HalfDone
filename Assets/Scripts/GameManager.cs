@@ -6,15 +6,25 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    [Header("# 변수")]
+    public int cardCount = 0;
+    int attempts = 0;
+    float time = 0.0f;
+    int lv;
+
+    [Header("# 컴포넌트")]
     public Text timeTxt;
     public Text attemptsTxt;
+    public Board board;
 
+    [Header("# 스크립트")]
     public Card firstCard;
     public Card secondCard;
 
-    public int cardCount = 0;
-    int attempts =0;
-    float time =0.0f;
+    [Header("# 게임오브젝트")]
+    public GameObject lvUi;
+
     void Awake()
     {
         if (instance == null)
@@ -65,5 +75,30 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         Time.timeScale = 0.0f;
+    }
+
+    //레벨 별 보드 초기화
+    public void easyMode()
+    {
+        lv = 0;
+        board.InitBoard(lv);
+        lvUi.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
+
+    public void normalMode()
+    {
+        lv = 1;
+        board.InitBoard(lv);
+        lvUi.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
+
+    public void hardMode()
+    {
+        lv = 2;
+        board.InitBoard(lv);
+        lvUi.SetActive(false);
+        Time.timeScale = 1.0f;
     }
 }
