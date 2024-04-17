@@ -16,9 +16,16 @@ public class Card : MonoBehaviour
     public SpriteRenderer backImage;
 
     float openTime = 0.0f;
+
+    AudioSource audioSource;
+    public AudioClip flip;
+    public AudioClip miss;
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.3f;
     }
 
     // Update is called once per frame
@@ -48,6 +55,7 @@ public class Card : MonoBehaviour
         front.SetActive(true);
         back.SetActive(false);
         anim.SetBool("isOpen_1", true);
+        audioSource.PlayOneShot(flip);
 
         if (GameManager.instance.firstCard == null)
         {
@@ -86,5 +94,6 @@ public class Card : MonoBehaviour
         anim.SetBool("isOpen", false);
         backImage.color = new Color(backImage.color.r - 0.1f, backImage.color.g - 0.1f, backImage.color.b - 0.1f);
         openTime = 0.0f;
+        audioSource.PlayOneShot(miss);
     }
 }
