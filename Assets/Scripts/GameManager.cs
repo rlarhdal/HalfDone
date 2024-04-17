@@ -9,7 +9,12 @@ public class GameManager : MonoBehaviour
     public Card firstCard;
     public Card secondCard;
 
+    public GameObject endPanel;
+    public GameObject RetryBtn;
+
     public int cardCount = 0;
+
+    private Canvas canvas;
 
     void Awake()
     {
@@ -18,11 +23,11 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
-
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        canvas = FindObjectOfType<Canvas>();
     }
 
     // Update is called once per frame
@@ -41,15 +46,41 @@ public class GameManager : MonoBehaviour
             secondCard.DestroyCard();
             cardCount -= 2;
 
-            //팀원의 이름 표시
+            Transform targetName = canvas.transform.Find("name_" + firstCard.idx);
+            targetName.gameObject.SetActive(true);
+            // 일정 시간 후에 비활성화
+            StartCoroutine(DeactivateObject(targetName.gameObject, 1f));
+
+            if (cardCount == 0)
+            {
+                endPanel.SetActive(true);
+                RetryBtn.SetActive(true);
+            }
         }
         else
         {
             firstCard.CloseCard();
             secondCard.CloseCard();
+
+            Transform WrongText = canvas.transform.Find("WrongTxt");
+            WrongText.gameObject.SetActive(true);
+            StartCoroutine(DeactivateObject(WrongText.gameObject, 1f));
         }
 
         firstCard = null;
         secondCard = null;
+    }
+
+    IEnumerator DeactivateObject(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
+    }
+
+    public void Retry()
+    {
+        endPanel.SetActive(false);
+        RetryBtn.SetActive(false);
+        Debug.Log("unretry");
     }
 }
