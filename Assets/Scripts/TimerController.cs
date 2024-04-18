@@ -7,16 +7,13 @@ public class TimerController : MonoBehaviour
 {
     public Slider timerSlider;
     public Text warningText;
-    public GameObject failTxt;
     public float totalTime = 30f;
-
     private float timeLeft;
     private bool flashing;
     void Start()
     {
         timeLeft = totalTime;
         flashing = false;
-
         timerSlider.maxValue = totalTime;
     }
     void Update()
@@ -26,8 +23,6 @@ public class TimerController : MonoBehaviour
         if (timeLeft <= 0)
         {
             timeLeft = 0;
-            // 시간이 다 되었을 때 failTxt를 켜줌
-            failTxt.SetActive(true);
         }
         // Slider 업데이트
         timerSlider.value = timeLeft;
