@@ -8,7 +8,9 @@ public class TimerController : MonoBehaviour
     public Slider timerSlider;
     public Text warningText;
     public GameObject failTxt;
+    public Text scoreText; // 점수를 나타내는 UI Text
     public float totalTime = 30f;
+    private int score = 0; // 점수
     private float timeLeft;
     private bool flashing;
     void Start()
@@ -16,6 +18,7 @@ public class TimerController : MonoBehaviour
         timeLeft = totalTime;
         flashing = false;
         timerSlider.maxValue = totalTime;
+        UpdateScoreUI();
     }
     void Update()
     {
@@ -55,6 +58,18 @@ public class TimerController : MonoBehaviour
             flashing = false;
             warningText.text = "";
         }
+    }
+   
+    public void CardMatchedSuccessfully()
+    {
+        // 카드를 맞추었을 때 호출되는 함수
+        // 성공적으로 맞추었을 때 추가적인 작업 수행 가능
+        score += 10; // 점수 10점 증가 (원하는 만큼 수정 가능)
+        UpdateScoreUI();
+    }
+    public void UpdateScoreUI()
+    {
+        scoreText.text = "Score: " + score.ToString();
     }
     IEnumerator FlashSlider()
     {

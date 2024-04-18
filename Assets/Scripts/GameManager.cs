@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
+    public TimerController timerController;
     AudioSource audioSource;
     public AudioClip match;
     public AudioClip miss;
@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     int attempts = 0;
     float time = 0.0f;
     int lv;
-
+   // int score = 0;
     [Header("# ÄÄÆ÷³ÍÆ®")]
     public Text timeTxt;
     public Text attemptsTxt;
@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0.3f;
+
+        //timerController = GetComponent<TimerController>();
     }
 
     // Update is called once per frame
@@ -71,7 +73,8 @@ public class GameManager : MonoBehaviour
             firstCard.DestroyCard();
             secondCard.DestroyCard();
             cardCount -= 2;
-
+            //score += 10;
+            timerController.CardMatchedSuccessfully();
             //GameObject targetName = GameObject.Find("name_" + firstCard.idx);
             GameObject targetName = namelist[firstCard.idx];
             targetName.gameObject.SetActive(true);
