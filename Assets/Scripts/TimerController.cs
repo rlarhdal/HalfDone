@@ -10,7 +10,7 @@ public class TimerController : MonoBehaviour
     public GameObject failTxt;
     public Text scoreText; // 점수를 나타내는 UI Text
     public float totalTime = 30f;
-    private int score = 0; // 점수
+    public int score = 0; // 점수
     private float timeLeft;
     private bool flashing;
     void Start()
@@ -69,7 +69,7 @@ public class TimerController : MonoBehaviour
     }
     public void UpdateScoreUI()
     {
-        scoreText.text = "Score: " + score.ToString();
+        scoreText.text = score.ToString() + " 점";
     }
     IEnumerator FlashSlider()
     {

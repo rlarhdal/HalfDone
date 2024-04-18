@@ -17,11 +17,15 @@ public class GameManager : MonoBehaviour
     int attempts = 0;
     float time = 0.0f;
     int lv;
-   // int score = 0;
+    public bool isPlayed = false;
+
     [Header("# 컴포넌트")]
     public Text timeTxt;
     public Text attemptsTxt;
     public Board board;
+    //결과창UI
+    public Text attemptTxt;
+    public Text scoreTxt;
 
     [Header("# 스크립트")]
     public Card firstCard;
@@ -47,8 +51,6 @@ public class GameManager : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.volume = 0.3f;
-
-        //timerController = GetComponent<TimerController>();
     }
 
     // Update is called once per frame
@@ -57,9 +59,6 @@ public class GameManager : MonoBehaviour
         time += Time.deltaTime;
         timeTxt.text = time.ToString("N2");
         attemptsTxt.text = attempts.ToString();
-        //시간이 0이 되면 실패 표시
-        //endTxt.SetActive(true);
-        //Time.timeScale = 30.0f;
         if (time > 30.0f)
             GameOver();
     }
@@ -73,9 +72,7 @@ public class GameManager : MonoBehaviour
             firstCard.DestroyCard();
             secondCard.DestroyCard();
             cardCount -= 2;
-            //score += 10;
             timerController.CardMatchedSuccessfully();
-            //GameObject targetName = GameObject.Find("name_" + firstCard.idx);
             GameObject targetName = namelist[firstCard.idx];
             targetName.gameObject.SetActive(true);
             // 일정 시간 후에 비활성화
@@ -84,6 +81,13 @@ public class GameManager : MonoBehaviour
 
             if (cardCount == 0)
             {
+                if(lv == 1)
+                {
+                    isPlayed = true;
+                }
+
+                attemptTxt.text = attemptsTxt.text;
+                scoreTxt.text = timerController.score.ToString();
 
                 endPanel.SetActive(true);
                 RetryBtn.SetActive(true);
@@ -96,7 +100,6 @@ public class GameManager : MonoBehaviour
             firstCard.CloseCard();
             secondCard.CloseCard();
 
-            //WrongText = GameObject.Find("WrongTxt");
             WrongText.gameObject.SetActive(true);
             StartCoroutine(DeactivateObject(WrongText.gameObject, 1f));
         }

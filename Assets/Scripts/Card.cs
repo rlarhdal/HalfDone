@@ -19,6 +19,7 @@ public class Card : MonoBehaviour
     public SpriteRenderer backImage;
 
     float openTime = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
