@@ -13,6 +13,7 @@ public class TimerController : MonoBehaviour
     public int score = 0; // Á¡¼ö
     private float timeLeft;
     private bool flashing;
+
     void Start()
     {
         timeLeft = totalTime;

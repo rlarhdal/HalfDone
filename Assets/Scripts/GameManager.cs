@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        Time.timeScale = 0.0f;
         if (instance == null)
         {
             instance = this;
