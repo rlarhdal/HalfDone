@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public Text timeTxt;
+    public Text attemptsTxt;
 
     public Card firstCard;
     public Card secondCard;
@@ -14,7 +18,12 @@ public class GameManager : MonoBehaviour
 
     public int cardCount = 0;
 
+    int attempts = 0;
+    float time = 0.0f;
+
     private Canvas canvas;
+    public GameObject WrongText;
+    public List<GameObject> namelist;
 
     void Awake()
     {
@@ -33,20 +42,27 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        time += Time.deltaTime;
+        timeTxt.text = time.ToString("N2");
+        attemptsTxt.text = attempts.ToString();
         //시간이 0이 되면 실패 표시
         //endTxt.SetActive(true);
         //Time.timeScale = 30.0f;
+        if (time > 30.0f)
+            GameOver();
     }
 
     public void Matched()
     {
+        attempts++;
         if (firstCard.idx == secondCard.idx)
         {
             firstCard.DestroyCard();
             secondCard.DestroyCard();
             cardCount -= 2;
 
-            Transform targetName = canvas.transform.Find("name_" + firstCard.idx);
+            //GameObject targetName = GameObject.Find("name_" + firstCard.idx);
+            GameObject targetName = namelist[firstCard.idx];
             targetName.gameObject.SetActive(true);
             // 일정 시간 후에 비활성화
             StartCoroutine(DeactivateObject(targetName.gameObject, 1f));
@@ -62,7 +78,7 @@ public class GameManager : MonoBehaviour
             firstCard.CloseCard();
             secondCard.CloseCard();
 
-            Transform WrongText = canvas.transform.Find("WrongTxt");
+            //WrongText = GameObject.Find("WrongTxt");
             WrongText.gameObject.SetActive(true);
             StartCoroutine(DeactivateObject(WrongText.gameObject, 1f));
         }
@@ -81,6 +97,11 @@ public class GameManager : MonoBehaviour
     {
         endPanel.SetActive(false);
         RetryBtn.SetActive(false);
-        Debug.Log("unretry");
+        SceneManager.LoadScene("MainScene");
+    }
+
+    void GameOver()
+    {
+        Time.timeScale = 0.0f;
     }
 }
