@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
+    AudioSource audioSource;
+    public AudioClip flip;
+
     public int idx = 0;
 
     public GameObject front;
@@ -19,6 +22,8 @@ public class Card : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.3f;
     }
 
     // Update is called once per frame
@@ -44,6 +49,7 @@ public class Card : MonoBehaviour
 
     public void OpenCard()
     {
+        audioSource.PlayOneShot(flip);
         anim.SetBool("isOpen", true);
         front.SetActive(true);
         back.SetActive(false);

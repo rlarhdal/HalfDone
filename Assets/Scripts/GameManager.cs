@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    AudioSource audioSource;
+    public AudioClip match;
+    public AudioClip miss;
+
     [Header("# 변수")]
     public int cardCount = 0;
     int attempts = 0;
@@ -41,7 +45,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+        audioSource.volume = 0.3f;
     }
 
     // Update is called once per frame
@@ -62,6 +67,7 @@ public class GameManager : MonoBehaviour
         attempts++;
         if (firstCard.idx == secondCard.idx)
         {
+            audioSource.PlayOneShot(match);
             firstCard.DestroyCard();
             secondCard.DestroyCard();
             cardCount -= 2;
@@ -72,14 +78,18 @@ public class GameManager : MonoBehaviour
             // 일정 시간 후에 비활성화
             StartCoroutine(DeactivateObject(targetName.gameObject, 1f));
 
+
             if (cardCount == 0)
             {
+
                 endPanel.SetActive(true);
                 RetryBtn.SetActive(true);
+
             }
         }
         else
         {
+            audioSource.PlayOneShot(miss);
             firstCard.CloseCard();
             secondCard.CloseCard();
 
