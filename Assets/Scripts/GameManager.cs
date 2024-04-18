@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -24,6 +25,10 @@ public class GameManager : MonoBehaviour
 
     [Header("# 게임오브젝트")]
     public GameObject lvUi;
+    public GameObject endPanel;
+    public GameObject RetryBtn;
+    public GameObject WrongText;
+    public List<GameObject> namelist;
 
     void Awake()
     {
@@ -61,12 +66,26 @@ public class GameManager : MonoBehaviour
             secondCard.DestroyCard();
             cardCount -= 2;
 
-            //팀원의 이름 표시
+            //GameObject targetName = GameObject.Find("name_" + firstCard.idx);
+            GameObject targetName = namelist[firstCard.idx];
+            targetName.gameObject.SetActive(true);
+            // 일정 시간 후에 비활성화
+            StartCoroutine(DeactivateObject(targetName.gameObject, 1f));
+
+            if (cardCount == 0)
+            {
+                endPanel.SetActive(true);
+                RetryBtn.SetActive(true);
+            }
         }
         else
         {
             firstCard.CloseCard();
             secondCard.CloseCard();
+
+            //WrongText = GameObject.Find("WrongTxt");
+            WrongText.gameObject.SetActive(true);
+            StartCoroutine(DeactivateObject(WrongText.gameObject, 1f));
         }
 
         firstCard = null;
@@ -100,5 +119,18 @@ public class GameManager : MonoBehaviour
         board.InitBoard(lv);
         lvUi.SetActive(false);
         Time.timeScale = 1.0f;
+    }
+
+    IEnumerator DeactivateObject(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
+    }
+
+    public void Retry()
+    {
+        endPanel.SetActive(false);
+        RetryBtn.SetActive(false);
+        SceneManager.LoadScene("MainScene");
     }
 }
