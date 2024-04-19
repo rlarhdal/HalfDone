@@ -24,7 +24,7 @@ and as this is our first project, we used face photos, names, and MBTI as elemen
 - 배치
 - 카드 애니메이션
 - 클릭할 때마다 색상 변경
-####오디오 시스템
+#### 오디오 시스템
 - 시작, 뒤집기, 성공, 실패 / 각 오디오 삽입
 #### 타이머
 - 30초 제한
