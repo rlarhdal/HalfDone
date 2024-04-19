@@ -33,6 +33,7 @@ and as this is our first project, we used face photos, names, and MBTI as elemen
 #### 게임 UI
 - 매칭 시도
 - 결과 창
+- 점수
 - 성공 시 : 이름과 MBTI 문구 띄우기
 - 실패 시 : "X" 띄우기
 #### 레벨 시스템
